@@ -16,7 +16,7 @@
     "sequelize-cli": "^6.2.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node app/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
