@@ -3,6 +3,8 @@
 In the project , you can run:
 
 #### `npm install`
+
+#### `cd app`
 #### `npx sequelize db:create demo`
 #### `npx sequelize db:migrate`
 #### `npx sequelize db:seed:all`
