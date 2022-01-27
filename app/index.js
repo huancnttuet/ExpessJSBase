@@ -2,7 +2,7 @@ const express = require('express') // Require module express vào project
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express() // Tạo một app mới
-const port = 8080 // Định nghĩa cổng để chạy ứng dụng NodeJS của bạn trên server
+const port = 8000 // Định nghĩa cổng để chạy ứng dụng NodeJS của bạn trên server
 // Require user route
 const userRoute = require('./routes/user')
 
