@@ -1,32 +1,41 @@
-
 const UserService = require('../services/users')
 const mailer = require('../utils/mailer')
 const pwdGenerator = require('../utils/pwd_generator')
 exports.signin = async (req, res) => {
-	const userService = new UserService(req)
-	var username = req.body.data.usernameSignIn
-	var password = req.body.data.pwdSignIn
-	userService
-		.signin(username, password)
-		.then((userInfo) => {
-			if (userInfo[0]) {
-				return res.json({
-					status: 'Success',
-					data: userInfo[0]
-				})
-			} else {
+	try {
+		const userService = new UserService(req)
+		var username = req.body.data.usernameSignIn
+		var password = req.body.data.pwdSignIn
+		// if (!username || !password) {
+		// 	throw new Error('server_msg_user_book_not_found')
+		// }
+		userService
+			.signin(username, password)
+			.then((userInfo) => {
+				if (userInfo[0]) {
+					return res.json({
+						status: 'Success',
+						data: userInfo[0],
+					})
+				} else {
+					return res.json({
+						status: 'Failed',
+						message: 'Username and password incorrect',
+					})
+				}
+			})
+			.catch((error) => {
 				return res.json({
 					status: 'Failed',
-					message: 'Username and password incorrect'
+					message: error.message,
 				})
-			}
-		})
-		.catch((error) => {
-			return res.json({
-				status: 'Failed',
-				message: error.message
 			})
+	} catch (error) {
+		return res.json({
+			status: 'Failed',
+			message: error.message,
 		})
+	}
 }
 
 exports.signUp = async (req, res) => {
@@ -43,23 +52,28 @@ exports.signUp = async (req, res) => {
 					.then((newUser) => {
 						if (newUser) {
 							console.log('-------------SENDMAIL------------')
-							mailer.sendMail(emailSignUp, usernameSignUp, pwdSignUp, function (error, info) {
-								if (error) {
-									console.log(error)
-									res.json({ status: 'Failed', message: error.message })
-								} else {
-									console.log('Email sent: ' + info.response)
-									return res.json({
-										status: 'Success',
-										data: {
-											username: usernameSignUp,
-											email: emailSignUp,
-											info: info.response
-										},
-										message: 'Mật khẩu đã được gửi về tài khoản của bạn'
-									})
-								}
-							})
+							mailer.sendMail(
+								emailSignUp,
+								usernameSignUp,
+								pwdSignUp,
+								function (error, info) {
+									if (error) {
+										console.log(error)
+										res.json({ status: 'Failed', message: error.message })
+									} else {
+										console.log('Email sent: ' + info.response)
+										return res.json({
+											status: 'Success',
+											data: {
+												username: usernameSignUp,
+												email: emailSignUp,
+												info: info.response,
+											},
+											message: 'Mật khẩu đã được gửi về tài khoản của bạn',
+										})
+									}
+								},
+							)
 						} else {
 							res.json({ status: 'Failed', message: 'error create new user' })
 						}
@@ -67,7 +81,7 @@ exports.signUp = async (req, res) => {
 					.catch((err) => {
 						return res.json({
 							status: 'Failed',
-							message: err.message
+							message: err.message,
 						})
 					})
 			} else {
@@ -77,7 +91,7 @@ exports.signUp = async (req, res) => {
 		.catch((error) => {
 			return res.json({
 				status: 'Failed',
-				message: error.message
+				message: error.message,
 			})
 		})
 }
@@ -99,13 +113,13 @@ exports.changePwd = async (req, res) => {
 			res.json({
 				status: 'Failed',
 				result: false,
-				message: 'Password incorrect'
+				message: 'Password incorrect',
 			})
 		}
 	} catch (err) {
 		return res.json({
 			status: 'Failed',
-			message: err.message
+			message: err.message,
 		})
 	}
 }
@@ -118,7 +132,7 @@ exports.forgottenAccount = async (req, res) => {
 	} catch (error) {
 		return res.json({
 			status: 'Failed',
-			message: error.message
+			message: error.message,
 		})
 	}
 
@@ -131,7 +145,7 @@ exports.forgottenAccount = async (req, res) => {
 				console.log('Email sent: Quen pass ' + info.response)
 				res.json({
 					status: 'Success',
-					message: 'Pass đã được gửi lại về mail của bạn'
+					message: 'Pass đã được gửi lại về mail của bạn',
 				})
 			}
 		})
@@ -139,7 +153,7 @@ exports.forgottenAccount = async (req, res) => {
 		res.json({
 			status: 'Failed',
 			result: false,
-			message: 'Mail chưa được đăng ký'
+			message: 'Mail chưa được đăng ký',
 		})
 	}
 }
