@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.use('/users', userRoute)
 
 app.get('/', function (req, res) {
-	res.send('<h2>API is running</h2>')
+	res.send('<h2>API server is running</h2>')
 })
 
 app.listen(port, function () {
