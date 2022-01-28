@@ -4,8 +4,8 @@ const pwdGenerator = require('../utils/pwd_generator')
 exports.signin = async (req, res) => {
 	try {
 		const userService = new UserService(req)
-		var username = req.body.data.usernameSignIn
-		var password = req.body.data.pwdSignIn
+		var username = req.body.data.username
+		var password = req.body.data.pwd
 		// if (!username || !password) {
 		// 	throw new Error('server_msg_user_book_not_found')
 		// }
