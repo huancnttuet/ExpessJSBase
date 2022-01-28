@@ -15,11 +15,13 @@ exports.signin = async (req, res) => {
 				if (userInfo[0]) {
 					return res.json({
 						status: 'Success',
+						statusCode: 200,
 						data: userInfo[0],
 					})
 				} else {
 					return res.json({
 						status: 'Failed',
+						statusCode: 400,
 						message: 'Username and password incorrect',
 					})
 				}
@@ -27,6 +29,7 @@ exports.signin = async (req, res) => {
 			.catch((error) => {
 				return res.json({
 					status: 'Failed',
+					statusCode: 401,
 					message: error.message,
 				})
 			})
